@@ -1,19 +1,36 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import BitcoinRate from './components/BitcoinRate.js'
+import Capital from './components/Capital.js'
+import BitcoinGraph from './components/BitcoinGraph.js'
+import AppBar from 'material-ui/AppBar';
+import Divider from 'material-ui/Divider';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+import {combineReducers} from 'redux';
+import rates from './reducers/rates.js';
+import capital from './reducers/capital.js';
+
+const appReducers = combineReducers({
+  rates,
+  capital
+})
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <Provider store={createStore(appReducers)}>
+        <div className="App">
+          <AppBar
+            title="Virtual Bitcoin Wallet"
+            showMenuIconButton={false}
+          />
+          <BitcoinRate />
+          <Capital />
+          <Divider />
+          <BitcoinGraph />
+        </div>
+      </Provider>
     );
   }
 }
